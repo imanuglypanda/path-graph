@@ -13,31 +13,36 @@ def wholeNumbers(size):
                     weight = 1
                 )
 
-def evenNumbers():
-    size = 40
-    for i in range(0, size, 2):
-        if (i == size):
-            break
-        else:
-            G.add_edge(
-                i, 
-                i + 2, 
-                color='g', 
-                weight = 1
-            )
+def evenNumbers(size):
+    count = 0
+    G.add_edge(2, 4)
+    count += 1
+    even = 4
+    while(count < size - 1):
+        G.add_edge(
+            even, 
+            even + 2, 
+            color='g', 
+            weight = 1
+        )
+        even += 2
+        count += 1
+        
 
-def oddNumbers():
-    size = 40
-    for i in range(size):
-        if (i == size):
-            break
-        elif (i % 2 != 0):
-            G.add_edge(
-                i, 
-                i + 3, 
-                color='b', 
-                weight = 1
-            )
+def oddNumbers(size):
+    count = 0
+    G.add_edge(1, 3)
+    count += 1
+    odd = 3
+    while(count < size - 1):
+        G.add_edge(
+            odd, 
+            odd + 2, 
+            color='b', 
+            weight = 1
+        )
+        odd += 2
+        count += 1
 
 def oddEvenNumbers(size):
     oddNumbers = []
@@ -101,7 +106,6 @@ def primesNumbers(size):
 def fiveNodes(size):
     number = 5
     for i in range(size):
-        G.add_node(number)
         if (i > 0):
             G.add_edge(
                 number - 5,
@@ -116,11 +120,11 @@ G = nx.MultiDiGraph()
 size = 20
 
 wholeNumbers(size) # Red
-# evenNumbers() # Green
-# oddNumbers() # Blue
+evenNumbers(size) # Green
+oddNumbers(size) # Blue
 primesNumbers(size) # Yellow
 fiveNodes(size) #
-oddEvenNumbers(size) # Even = Green, Odd = BLue
+# oddEvenNumbers(size) # Even = Green, Odd = BLue
 
 colors = nx.get_edge_attributes(G,'color').values()
 weights = nx.get_edge_attributes(G,'weight').values()
@@ -140,7 +144,6 @@ nx.draw(
     with_labels=True,
     node_color='lightgreen'
 )
-print(G.nodes())
 plt.show()
 
 # G.add_edge(0,1,color='r',weight=2)
