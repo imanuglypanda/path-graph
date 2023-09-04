@@ -3,15 +3,15 @@ import matplotlib.pyplot as plt
 
 def wholeNumbers(size):
     for i in range(size):
-        if (i < size):
-            G.add_node(i)
-            if (i > 0):
-                G.add_edge(
-                    i - 1, 
-                    i, 
-                    color='r', 
-                    weight = 1
-                )
+        wholeNumbersList.append(i)
+
+    for i in range(size - 1):
+        G.add_edge(
+            wholeNumbersList[i],
+            wholeNumbersList[i + 1],
+            color = 'r'
+        )
+        
 
 def evenNumbers(size):
     count = 0
@@ -22,8 +22,7 @@ def evenNumbers(size):
         G.add_edge(
             even, 
             even + 2, 
-            color='g', 
-            weight = 1
+            color='g'
         )
         even += 2
         count += 1
@@ -38,44 +37,10 @@ def oddNumbers(size):
         G.add_edge(
             odd, 
             odd + 2, 
-            color='b', 
-            weight = 1
+            color='b'
         )
         odd += 2
         count += 1
-
-def oddEvenNumbers(size):
-    oddNumbers = []
-    evenNumbers = []
-    numbers = 0
-    oddNumbers.append(numbers)
-    evenNumbers.append(numbers)
-    numbers += 1
-    
-    while (len(oddNumbers) < size or len(evenNumbers) < size):
-        if (numbers % 2 == 0):
-            evenNumbers.append(numbers)
-        else:
-            oddNumbers.append(numbers)
-        numbers += 1
-    for i in range(size):
-        
-        if (i < size - 1):
-            G.add_edge(
-                oddNumbers[i],
-                oddNumbers[i + 1],
-                color='b', 
-                weight = 1
-            )
-            G.add_edge(
-                evenNumbers[i],
-                evenNumbers[i + 1], 
-                color='g', 
-                weight = 1
-            )
-        else:
-            G.add_node(i)
-            
 
 def is_prime(number):
     if number < 2:
@@ -99,8 +64,7 @@ def primesNumbers(size):
             G.add_edge(
                 primes[i], 
                 primes[i + 1],
-                color='y',
-                weight=1
+                color='y'
             )
 
 def fiveNodes(size):
@@ -110,44 +74,34 @@ def fiveNodes(size):
             G.add_edge(
                 number - 5,
                 number,
-                color='m',
-                weight=1
+                color='m'
             )
         number += 5
 
+wholeNumbersList = []
+evenNumbersList = []
+oddNumbersList = []
+primesNumbersList = []
+fiveNodesList = []
+graphNumbersList = []
 
-G = nx.MultiDiGraph()
+G = nx.DiGraph(Directed=True)
 size = 20
 
 wholeNumbers(size) # Red
-evenNumbers(size) # Green
-oddNumbers(size) # Blue
-primesNumbers(size) # Yellow
-fiveNodes(size) #
-# oddEvenNumbers(size) # Even = Green, Odd = BLue
+# evenNumbers(size) # Green
+# oddNumbers(size) # Blue
+# primesNumbers(size) # Yellow
+# fiveNodes(size) # Magenta
 
 colors = nx.get_edge_attributes(G,'color').values()
-weights = nx.get_edge_attributes(G,'weight').values()
 
 pos = nx.kamada_kawai_layout(G)
-# nx.draw_networkx_nodes(G, pos)
-# nx.draw_networkx_labels(G,pos)
-# nx.draw_networkx_edges(
-#     G, pos,
-#     connectionstyle="arc3,rad=0.1"  # <-- THIS IS IT
-# )
 nx.draw(
     G, 
     pos,
     edge_color=colors, 
-    width=list(weights),
     with_labels=True,
     node_color='lightgreen'
 )
 plt.show()
-
-# G.add_edge(0,1,color='r',weight=2)
-# G.add_edge(1,2,color='g',weight=4)
-# G.add_edge(2,3,color='b',weight=6)
-# G.add_edge(3,4,color='y',weight=3)
-# G.add_edge(4,0,color='m',weight=1)
