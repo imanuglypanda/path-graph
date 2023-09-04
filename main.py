@@ -3,44 +3,48 @@ import matplotlib.pyplot as plt
 
 def wholeNumbers(size):
     for i in range(size):
-        wholeNumbersList.append(i)
+        G.add_node(i)
+        wholeNumbersNodes.append(i)
 
-    for i in range(size - 1):
-        G.add_edge(
-            wholeNumbersList[i],
-            wholeNumbersList[i + 1],
-            color = 'r'
-        )
+    
+    for i in range(len(wholeNumbersNodes) - 1):
+        wholeNumbersEdges.append((wholeNumbersNodes[i], wholeNumbersNodes[i + 1]))
+
+    G.add_edges_from(wholeNumbersEdges, color='r')
+
+    # print(wholeNumbersNodes)
+    # print(wholeNumbersEdges)
+
+
+def findOddAndEvenNumbers(size):
+    number = 1
+    while (len(oddNumbersNodes) < size or len(evenNumbersNodes) < size):
+        if (number % 2 != 0):
+            G.add_node(number)
+            oddNumbersNodes.append(number)
+        else:
+            G.add_node(number)
+            evenNumbersNodes.append(number)
+        number += 1
         
 
-def evenNumbers(size):
-    count = 0
-    G.add_edge(2, 4)
-    count += 1
-    even = 4
-    while(count < size - 1):
-        G.add_edge(
-            even, 
-            even + 2, 
-            color='g'
-        )
-        even += 2
-        count += 1
-        
+def evenNumbers():
+    for i in range(len(evenNumbersNodes) - 1):
+        evenNumbersEdges.append((evenNumbersNodes[i], evenNumbersNodes[i + 1]))
+    
+    G.add_edges_from(evenNumbersEdges, color='g')
+
+    # print(evenNumbersNodes)
+    # print(evenNumbersEdges) 
 
 def oddNumbers(size):
-    count = 0
-    G.add_edge(1, 3)
-    count += 1
-    odd = 3
-    while(count < size - 1):
-        G.add_edge(
-            odd, 
-            odd + 2, 
-            color='b'
-        )
-        odd += 2
-        count += 1
+    for i in range(len(oddNumbersNodes) - 1):
+        oddNumbersEdges.append((oddNumbersNodes[i], oddNumbersNodes[i + 1]))
+    
+    G.add_edges_from(oddNumbersEdges, color='b')
+
+    # print(oddNumbersNodes)
+    # print(oddNumbersEdges) 
 
 def is_prime(number):
     if number < 2:
@@ -51,50 +55,69 @@ def is_prime(number):
     return True
 
 def primesNumbers(size):
-    primes = []
     number = 2
-    while len(primes) < size:
+    while len(primesNumbersNodes) < size:
         if is_prime(number):
-            primes.append(number)
+            G.add_node(number)
+            primesNumbersNodes.append(number)
         number += 1
-    for i in range(len(primes)):
-        if (i == len(primes) - 1):
-            break
-        else:
-            G.add_edge(
-                primes[i], 
-                primes[i + 1],
-                color='y'
-            )
+
+    for i in range(len(primesNumbersNodes) - 1):
+        primesNumbersEdges.append((primesNumbersNodes[i], primesNumbersNodes[i + 1]))
+    
+    G.add_edges_from(primesNumbersEdges, color='y')
+
+    # print(primesNumbersNodes)
+    # print(primesNumbersEdges)
 
 def fiveNodes(size):
     number = 5
-    for i in range(size):
-        if (i > 0):
-            G.add_edge(
-                number - 5,
-                number,
-                color='m'
-            )
+    while(len(divisibleByFiveNodes) < size):
+        G.add_node(number)
+        divisibleByFiveNodes.append(number)
         number += 5
+    
+    for i in range(len(divisibleByFiveNodes) - 1):
+        divisibleByFiveEdges.append((divisibleByFiveNodes[i], divisibleByFiveNodes[i + 1]))
 
-wholeNumbersList = []
-evenNumbersList = []
-oddNumbersList = []
-primesNumbersList = []
-fiveNodesList = []
-graphNumbersList = []
+    G.add_edges_from(divisibleByFiveEdges, color='m')
 
-G = nx.DiGraph(Directed=True)
+    # print(divisibleByFiveNodes)
+    # print(divisibleByFiveEdges)
+
+# Whole Number
+wholeNumbersNodes = []
+wholeNumbersEdges = []
+
+# Even Number
+evenNumbersNodes = []
+evenNumbersEdges = []
+
+# Odd Number
+oddNumbersNodes = []
+oddNumbersEdges = []
+
+# Prime Number
+primesNumbersNodes = []
+primesNumbersEdges = []
+
+# Divisible By Five
+divisibleByFiveNodes = []
+divisibleByFiveEdges = []
+
+pathList = []
+
+G = nx.MultiDiGraph()
 size = 20
 
 wholeNumbers(size) # Red
-# evenNumbers(size) # Green
-# oddNumbers(size) # Blue
-# primesNumbers(size) # Yellow
-# fiveNodes(size) # Magenta
+findOddAndEvenNumbers(size)
+evenNumbers() # Green
+oddNumbers(size) # Blue
+primesNumbers(size) # Yellow
+fiveNodes(size) # Magenta
 
-colors = nx.get_edge_attributes(G,'color').values()
+colors = nx.get_edge_attributes(G, 'color').values()
 
 pos = nx.kamada_kawai_layout(G)
 nx.draw(
