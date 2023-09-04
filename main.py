@@ -8,7 +8,7 @@ def wholeNumbers(size):
 
     
     for i in range(len(wholeNumbersNodes) - 1):
-        wholeNumbersEdges.append((wholeNumbersNodes[i], wholeNumbersNodes[i + 1]))
+        wholeNumbersEdges.append([wholeNumbersNodes[i], wholeNumbersNodes[i + 1]])
 
     G.add_edges_from(wholeNumbersEdges, color='r')
 
@@ -30,16 +30,16 @@ def findOddAndEvenNumbers(size):
 
 def evenNumbers():
     for i in range(len(evenNumbersNodes) - 1):
-        evenNumbersEdges.append((evenNumbersNodes[i], evenNumbersNodes[i + 1]))
+        evenNumbersEdges.append([evenNumbersNodes[i], evenNumbersNodes[i + 1]])
     
     G.add_edges_from(evenNumbersEdges, color='g')
 
     # print(evenNumbersNodes)
     # print(evenNumbersEdges) 
 
-def oddNumbers(size):
+def oddNumbers():
     for i in range(len(oddNumbersNodes) - 1):
-        oddNumbersEdges.append((oddNumbersNodes[i], oddNumbersNodes[i + 1]))
+        oddNumbersEdges.append([oddNumbersNodes[i], oddNumbersNodes[i + 1]])
     
     G.add_edges_from(oddNumbersEdges, color='b')
 
@@ -63,7 +63,7 @@ def primesNumbers(size):
         number += 1
 
     for i in range(len(primesNumbersNodes) - 1):
-        primesNumbersEdges.append((primesNumbersNodes[i], primesNumbersNodes[i + 1]))
+        primesNumbersEdges.append([primesNumbersNodes[i], primesNumbersNodes[i + 1]])
     
     G.add_edges_from(primesNumbersEdges, color='y')
 
@@ -78,7 +78,7 @@ def fiveNodes(size):
         number += 5
     
     for i in range(len(divisibleByFiveNodes) - 1):
-        divisibleByFiveEdges.append((divisibleByFiveNodes[i], divisibleByFiveNodes[i + 1]))
+        divisibleByFiveEdges.append([divisibleByFiveNodes[i], divisibleByFiveNodes[i + 1]])
 
     G.add_edges_from(divisibleByFiveEdges, color='m')
 
@@ -113,7 +113,7 @@ size = 20
 wholeNumbers(size) # Red
 findOddAndEvenNumbers(size)
 evenNumbers() # Green
-oddNumbers(size) # Blue
+oddNumbers() # Blue
 primesNumbers(size) # Yellow
 fiveNodes(size) # Magenta
 
@@ -123,8 +123,8 @@ pos = nx.kamada_kawai_layout(G)
 nx.draw(
     G, 
     pos,
-    edge_color=colors, 
     with_labels=True,
+    edge_color=colors, 
     node_color='lightgreen'
 )
 plt.show()
